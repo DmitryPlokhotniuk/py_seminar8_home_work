@@ -76,6 +76,23 @@ def add_new(file_name: str):
         fd.write(f'{last_name}, {first_name}, {patronymic}, {phone_number}\n')
 
 
+def copy_record(file_name: str):
+    line_number = int(input('Введите номер строки, которую хотите скопировать:'))
+    with open(file_name, 'r', encoding='utf-8') as old_file:
+        len_lines = len(old_file.readlines())
+    if len_lines >= line_number:
+        with open(file_name, 'r', encoding='utf-8') as old_file:
+            print(len_lines)
+            for i, line in enumerate(old_file, 1):
+                    if i == line_number:
+                        with open('new_phonebook.txt', 'a', encoding='utf-8') as new_file:
+                            new_file.writelines(line)
+                            print('Копирование завершено')
+    else:
+        print('Такой строки не существует')
+
+
+
 def main():
     file_name = 'phonebook.txt'
     flag_exit = False
@@ -85,6 +102,7 @@ def main():
         print('3 - удалить запись')
         print('4 - изменить запись')
         print('5 - поиск записи по имени/фамилии')
+        print('6 - копирование по номеру строки')
         answer = input('Введите операцию или x для выхода: ')
         if answer == '1':
             show_all(file_name=file_name)
@@ -96,6 +114,8 @@ def main():
             modify(file_name=file_name)
         elif answer == '5':
             print(find_by_attribute(file_name, False))
+        elif answer == '6':
+            copy_record(file_name)
         elif answer == 'x':
             flag_exit = True
 
